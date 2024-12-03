@@ -68,37 +68,61 @@ function Game() {
     setCurrScore(0);
     setPokemonClicked([]);
   }
+
+  function restartGamev2(){
+    setEndGame(false);
+    setCurrScore(0);
+    setBestScore(10);
+    setPokemonClicked([]);
+  }
   
 
   return (
     <>
-    <section className="web-layout">
-      <h1>Pokemon Flashcard Game</h1>
-      {endGame ? (
-        <section className="endGame-layout">
-          <h3>Game Ended!</h3>
-          <div>Your best score: {bestScore}</div>
-          <div>Score of this round: {currScore}</div>
-          <button onClick={() => restartGame()} className="start-game-button">
-            Restart?
-          </button>
-        </section>
-      ):(
-      <div className="flashcard-layout">
-        <ul className="pokemon-grid">
-          {data.map((pokemon, index) => (
-            <button onClick={() => changeScore(pokemon.name)} key={index} className="pokemon-item">
-              <h3>{pokemon.name}</h3>
-              <img src={pokemon.image} alt={pokemon.name} />
-            </button>))}
-        </ul>
-        <section className= "score-display">
-            <div><strong>Best Score:</strong> {bestScore}</div>
-            <div><strong>Current Score:</strong> {currScore}</div>
-        </section>
-      </div>
-      )}
-    </section>
+   <section className="web-layout">
+        <h1>Pokemon Flashcard Game</h1>
+        {pokemonClicked.length === 10 ? (
+          <section className = "endGame-layout">
+            <div>🎉CONGRATS! Your memory captured all 10 without repeats!🎉</div>
+            <button onClick={restartGamev2} className="start-game-button">
+              Restart?
+            </button>
+          </section>
+          
+        ) : endGame ? (
+          <section className="endGame-layout">
+            <h3>Game Ended!</h3>
+            <div>Your best score: {bestScore}</div>
+            <div>Score of this round: {currScore}</div>
+            <button onClick={restartGame} className="start-game-button">
+              Restart?
+            </button>
+          </section>
+        ) : (
+          <div className="flashcard-layout">
+            <ul className="pokemon-grid">
+              {data.map((pokemon, index) => (
+                <button
+                  onClick={() => changeScore(pokemon.name)}
+                  key={index}
+                  className="pokemon-item"
+                >
+                  <h3>{pokemon.name}</h3>
+                  <img src={pokemon.image} alt={pokemon.name} />
+                </button>
+              ))}
+            </ul>
+            <section className="score-display">
+              <div>
+                <strong>Best Score:</strong> {bestScore}
+              </div>
+              <div>
+                <strong>Current Score:</strong> {currScore}
+              </div>
+            </section>
+          </div>
+        )}
+      </section>
     </>
     
   );
