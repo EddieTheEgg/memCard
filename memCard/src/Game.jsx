@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import './App.css';
+import './Game.css';
 
-function App() {
+function Game() {
   const [data, setData] = useState([]);
   const [pokemonClicked, setPokemonClicked] = useState([]); 
   const [currScore, setCurrScore] = useState(0); 
@@ -37,7 +37,6 @@ function App() {
     if (pokemonClicked.includes(pokemonName)) {
       bestScoreCheck(currScore); 
       setEndGame(true); 
-      setCurrScore(0); 
     } else {
       setPokemonClicked((prevPokemonClicked) => [...prevPokemonClicked, pokemonName]);
       setCurrScore((prevCurrScore) => prevCurrScore + 1);
@@ -63,6 +62,12 @@ function App() {
       return shuffled; 
     });
   }
+
+  function restartGame(){
+    setEndGame(false);
+    setCurrScore(0);
+    setPokemonClicked([]);
+  }
   
 
   return (
@@ -70,8 +75,13 @@ function App() {
     <section className="web-layout">
       <h1>Pokemon Flashcard Game</h1>
       {endGame ? (
-        <section>
-          
+        <section className="endGame-layout">
+          <h3>Game Ended!</h3>
+          <div>Your best score: {bestScore}</div>
+          <div>Score of this round: {currScore}</div>
+          <button onClick={() => restartGame()} className="start-game-button">
+            Restart?
+          </button>
         </section>
       ):(
       <div className="flashcard-layout">
@@ -82,6 +92,10 @@ function App() {
               <img src={pokemon.image} alt={pokemon.name} />
             </button>))}
         </ul>
+        <section className= "score-display">
+            <div><strong>Best Score:</strong> {bestScore}</div>
+            <div><strong>Current Score:</strong> {currScore}</div>
+        </section>
       </div>
       )}
     </section>
@@ -90,4 +104,4 @@ function App() {
   );
 }
 
-export default App;
+export default Game;
